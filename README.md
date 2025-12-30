@@ -1,50 +1,48 @@
 # RSUAlgoritmasi
-Klasik bilgisayar bilimlerinde kullanılan Linear Congruential Generator (LCG) algoritmasını, modern SHA-256 özetleme (hashing) fonksiyonu ile birleştirerek daha güvenli bir rastgele sayı üretim mekanizması sunar.
+Secure-RNG (Hashed-LCG)
+SHA-256 ile güçlendirilmiş rastgele sayı üreteci.
 
-Neden "Hashed-LCG"?
+Proje Hakkında
+Bu proje, deterministik bilgisayar sistemlerinde güvenli rastgele sayı üretme problemini ele alır. Standart üreteçlerin aksine, bu algoritma matematiksel bir formülü kriptografik bir hash fonksiyonu ile birleştirerek tahmin edilebilirliği ortadan kaldırır.
 
-Standart LCG algoritmaları X 
+Teknik Analiz ve Güvenlik Mimarisi
+Projenin güvenlik katmanları şu şekildedir:
+
+1. Dinamik Tohumlama (Hybrid Seeding)
+
+Sistem sadece statik bir anahtar kullanmaz. anahtar_kelime + time.time_ns() formülü ile kullanıcı girdisi yüksek çözünürlüklü zaman damgasıyla karıştırılır. Bu, aynı anahtar girilse bile her saniye farklı bir başlangıç (seed) noktası oluşturur.
+
+2. Matematiksel Üretim (LCG)
+
+Üretim motoru olarak Linear Congruential Generator kullanılır.
+
+X 
 n+1
 ​	
- =(aX 
+ =(a⋅X 
 n
 ​	
- +c)modm formülüne dayanır. Bu formül hızlıdır ancak birkaç çıktı gözlemlendikten sonra bir sonraki sayının tahmin edilmesi kolaydır. Bu projede:
+ +c)modm
+Burada kullanılan a, c ve m değerleri dünya genelinde kabul görmüş güvenli parametrelerdir.
 
-Her üretim adımında elde edilen değer SHA-256 ile maskelenir.
+3. Kriptografik Maskeleme (SHA-256 Layer)
 
-Hash fonksiyonlarının tek yönlü (one-way) olma özelliği sayesinde, üretilen sayıdan algoritmanın iç durumuna (internal state) ulaşmak matematiksel olarak imkansızdır.
+Bu projenin en önemli güvenlik özelliği, LCG çıktılarının doğrudan kullanıcıya sunulmamasıdır.
 
-Seed (Tohum) oluşturulurken sistem zamanı (nanosaniye) ve kullanıcıdan alınan benzersiz metin karıştırılarak entropi artırılır.
+Doğrusallık Kırılması: LCG'nin matematiksel düzeni, SHA-256 hash fonksiyonu ile kaotik bir hale getirilir.
 
-Özellikler
-Hibrit Mimari: Matematiksel hız ve kriptografik güvenliğin birleşimi.
+Tek Yönlü Güvenlik: Hash fonksiyonu tek yönlü (one-way) olduğu için, üretilen sayıdan algoritmanın iç durumuna geri dönmek imkansızdır.
 
-Görsel Analiz: Üretilen sayıların dağılımını terminal üzerinde yıldız grafiği ile görselleştirme.
+Örnek Çıktı ve Dağılım
+Algoritma, sayıları 0-1000 aralığına Uniform Distribution (Düzgün Dağılım) ilkesine göre yayar. Terminal üzerinden yıldız grafiği ile görselleştirme sağlanmaktadır:
 
-İstatistiksel Rapor: En büyük, en küçük ve ortalama değer hesaplama.
+Plaintext
+Sayı 01:  919 | ************************************
+Sayı 02:  809 | ********************************
+Sayı 03:  547 | *********************
+Kurulum
+Dosyayı indirin: main.py
 
-Yüksek Entropi: time.time_ns() ve kullanıcı girdisi ile güçlendirilmiş başlangıç değeri.
+Çalıştırın: python main.py
 
- Kurulum ve Kullanım
-Bu depoyu klonlayın:
-
-
-Proje dizinine gidin:
-
-Bash
-cd secure-rng
-Algoritmayı çalıştırın:
-
-Bash
-python main.py
- Algoritma Akış Şeması
-Girdi: Kullanıcıdan bir anahtar kelime alınır.
-
-Tohumlama: Anahtar kelime + Zaman damgası → SHA-256 → Başlangıç Seed'i.
-
-İterasyon: LCG formülü ile yeni bir geçici değer üretilir.
-
-Güvenlik Katmanı: Geçici değer SHA-256'dan geçirilir.
-
-Çıktı: Hash değerinin mod alınmış hali kullanıcıya sunulur ve görselleştirilir.
+Bir anahtar kelime girin ve rastgeleliği gözlemleyin.
