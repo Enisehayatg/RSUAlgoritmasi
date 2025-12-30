@@ -16,14 +16,7 @@ Sistem sadece statik bir anahtar kullanmaz. anahtar_kelime + time.time_ns() form
 
 Üretim motoru olarak Linear Congruential Generator kullanılır.
 
-X 
-n+1
-​	
- =(a⋅X 
-n
-​	
- +c)modm
-Burada kullanılan a, c ve m değerleri dünya genelinde kabul görmüş güvenli parametrelerdir.
+$$X_{n+1} = (a \cdot X_n + c) \pmod m$$ Burada kullanılan a, c ve m değerleri dünya genelinde kabul görmüş güvenli parametrelerdir.
 
 3. Kriptografik Maskeleme (SHA-256 Layer)
 
@@ -38,8 +31,11 @@ Algoritma, sayıları 0-1000 aralığına Uniform Distribution (Düzgün Dağıl
 
 Plaintext
 Sayı 01:  919 | ************************************
+
 Sayı 02:  809 | ********************************
+
 Sayı 03:  547 | *********************
+
 Kurulum
 Dosyayı indirin: main.py
 
