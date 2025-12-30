@@ -29,8 +29,7 @@ Yüksek Entropi: time.time_ns() ve kullanıcı girdisi ile güçlendirilmiş ba�
  Kurulum ve Kullanım
 Bu depoyu klonlayın:
 
-Bash
-git clone https://github.com/kullaniciadi/secure-rng.git
+
 Proje dizinine gidin:
 
 Bash
